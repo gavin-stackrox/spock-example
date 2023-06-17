@@ -41,6 +41,7 @@ tasks.withType(Test) {
     showStandardStreams true
     exceptionFormat "full"
     events "passed", "skipped", "failed"
+    displayGranularity 2
   }
 }
 

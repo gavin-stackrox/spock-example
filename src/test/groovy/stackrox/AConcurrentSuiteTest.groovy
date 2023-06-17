@@ -1,5 +1,3 @@
-import spock.lang.Execution
-import org.spockframework.runtime.model.parallel.ExecutionMode
 import BaseService
 
 class AConcurrentSuiteTest extends ParallelSpecification {
