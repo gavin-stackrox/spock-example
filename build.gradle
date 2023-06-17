@@ -29,11 +29,29 @@ dependencies {
   // dependencies used by examples in this project
   testRuntimeOnly "com.h2database:h2:2.1.214"
   implementation "org.apache.groovy:groovy-sql"
+
+  // dependencies for StackRox type tests
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.7'
 }
 
-test {
-  useJUnitPlatform()
+tasks.withType(Test) {
+  systemProperty 'spock.configuration', rootProject.file('SpockConfig.groovy').absolutePath
+  outputs.upToDateWhen { false }
   testLogging {
+    showStandardStreams true
+    exceptionFormat "full"
     events "passed", "skipped", "failed"
   }
+}
+
+task testSerial(type: Test) {
+    useJUnitPlatform {
+        includeTags "Serial"
+    }
+}
+
+task testParallel(type: Test) {
+    useJUnitPlatform {
+        includeTags "Parallel"
+    }
 }
