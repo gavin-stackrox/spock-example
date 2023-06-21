@@ -80,7 +80,7 @@ class BaseSpecification extends Specification {
 
     def setup() {
         log.info("Starting feature - ${whoami} - ${BaseService.whatAreYouDoing()}")
-        synchronized("aSharedSpecVariable") {
+        synchronized(syncSetupTest) {
             if (syncSetupTest == 0) {
                 log.info("Only 1 feature setup() per spec should get here")
                 syncSetupTest = 1
