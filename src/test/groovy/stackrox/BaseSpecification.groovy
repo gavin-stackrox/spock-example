@@ -12,6 +12,8 @@ class BaseSpecification extends Specification {
     Logger log = LoggerFactory.getLogger("test." + this.class.getName())
     // Logger log = LoggerFactory.getLogger("test." + this.getClass().getSimpleName())
 
+    static final Logger LOG = LoggerFactory.getLogger("test." + BaseSpecification.getSimpleName())
+
     public static ThreadLocal<String> whoami = new ThreadLocal<String>() {
         @Override
         protected String initialValue() {
@@ -46,16 +48,44 @@ class BaseSpecification extends Specification {
     //     }
     // }
 
+    @Shared
+    Integer syncSetupTest = 0
+
+    private static boolean globalSetupDone = false
+
+    private static synchronizedGlobalSetup() {
+        synchronized(BaseSpecification) {
+            globalSetup()
+        }
+    }
+
+    private static globalSetup() {
+        if (globalSetupDone) {
+            LOG.info("globalSetup done")
+            return
+        }
+        LOG.info("I'm doing global setup. The rest of you can ...")
+        sleep(5000)
+        globalSetupDone = true
+    }
+
     def setupSpec() {
         while (!isLogbackReady()) {
             println "Logging is not yet ready"
             sleep(100)
         }
+        synchronizedGlobalSetup()
         log.info("Starting specification - ${whoami} - ${BaseService.whatAreYouDoing()}")
     }
 
     def setup() {
         log.info("Starting feature - ${whoami} - ${BaseService.whatAreYouDoing()}")
+        synchronized("aSharedSpecVariable") {
+            if (syncSetupTest == 0) {
+                log.info("Only 1 feature setup() per spec should get here")
+                syncSetupTest = 1
+            }
+        }
     }
 
     def cleanup() {
