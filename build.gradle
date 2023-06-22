@@ -50,9 +50,22 @@ task testSerial(type: Test) {
   }
 }
 
+task testSerialBAT(type: Test) {
+  useJUnitPlatform {
+      includeTags "Serial & BAT"
+  }
+}
+
 task testParallel(type: Test) {
   systemProperty 'spock.configuration', rootProject.file('ParallelSpockConfig.groovy').absolutePath
   useJUnitPlatform {
       includeTags "Parallel"
+  }
+}
+
+task testParallelBAT(type: Test) {
+  systemProperty 'spock.configuration', rootProject.file('ParallelSpockConfig.groovy').absolutePath
+  useJUnitPlatform {
+      includeTags "Parallel & BAT"
   }
 }
