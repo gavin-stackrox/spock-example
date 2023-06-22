@@ -1,5 +1,5 @@
 class OtherSerialTest extends SerialSpecification {
-    def "lets get started"() {
+    def "other serial test"() {
         sleep(100)
         expect:
         "a" == "a"

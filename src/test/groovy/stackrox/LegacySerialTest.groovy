@@ -1,3 +1,6 @@
+import spock.lang.Tag
+
+@Tag("BAT")
 class LegacySerialTest extends SerialSpecification {
     def "lets get started"() {
         sleep(100)

@@ -1,5 +1,7 @@
 import BaseService
+import spock.lang.Tag
 
+@Tag("BAT")
 class AConcurrentSuiteTest extends ParallelSpecification {
     def setupSpec() {
         BaseService.doThisInstead("Behave the A way")

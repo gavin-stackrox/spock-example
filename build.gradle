@@ -35,7 +35,6 @@ dependencies {
 }
 
 tasks.withType(Test) {
-  systemProperty 'spock.configuration', rootProject.file('SpockConfig.groovy').absolutePath
   outputs.upToDateWhen { false }
   testLogging {
     showStandardStreams true
@@ -46,13 +45,14 @@ tasks.withType(Test) {
 }
 
 task testSerial(type: Test) {
-    useJUnitPlatform {
-        includeTags "Serial"
-    }
+  useJUnitPlatform {
+      includeTags "Serial"
+  }
 }
 
 task testParallel(type: Test) {
-    useJUnitPlatform {
-        includeTags "Parallel"
-    }
+  systemProperty 'spock.configuration', rootProject.file('ParallelSpockConfig.groovy').absolutePath
+  useJUnitPlatform {
+      includeTags "Parallel"
+  }
 }
